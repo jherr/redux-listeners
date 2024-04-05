@@ -1,6 +1,8 @@
 import React from "react";
 import { Pokemon } from "../types";
 
+import { API_HOST } from "../api/pokemon";
+
 const InfoItem = ({ children }: { children: React.ReactNode }) => (
   <div className="italic text-right">{children}</div>
 );
@@ -14,7 +16,7 @@ export default function PokemonDetail({ pokemon }: { pokemon: Pokemon }) {
     <div className="flex">
       <div className="w-1/4">
         <img
-          src={`http://localhost:3333/assets/${pokemon.name.toLowerCase()}.jpg`}
+          src={`${API_HOST}/assets/${pokemon.name.toLowerCase()}.jpg`}
           className="w-full rounded-tl-xl rounded-bl-xl h-full object-cover"
         />
       </div>

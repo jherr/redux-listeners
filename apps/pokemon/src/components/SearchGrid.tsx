@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 
 import { searchUpdated, useSearch } from "../store";
 
+import { API_HOST } from "../api/pokemon";
+
 import { Pokemon } from "../types";
 
 const PokemonCard = ({ pokemon }: { pokemon: Pokemon }) => {
@@ -11,7 +13,7 @@ const PokemonCard = ({ pokemon }: { pokemon: Pokemon }) => {
     <Link to="/pokemon/$id" params={{ id: pokemon.id.toString() }}>
       <div className="rounded-xl max-h-96">
         <img
-          src={`http://localhost:3333/assets/${pokemon.name.toLowerCase()}.jpg`}
+          src={`${API_HOST}/assets/${pokemon.name.toLowerCase()}.jpg`}
           alt={pokemon.name}
           className="w-full object-cover rounded-t-xl max-h-48"
         />

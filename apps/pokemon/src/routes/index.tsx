@@ -18,7 +18,7 @@ export default function Index() {
 
   useEffect(() => {
     (async function runSearch() {
-      setPokemon((await pokemonSearch(searchInputValue)).props.pokemon);
+      setPokemon(await pokemonSearch(searchInputValue));
     })();
   }, [searchInputValue]);
 

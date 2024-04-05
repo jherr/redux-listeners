@@ -12,9 +12,7 @@ export const Route = createFileRoute("/pokemon/$id")({
 });
 
 export default function Index() {
-  const {
-    props: { pokemon },
-  } = Route.useLoaderData();
+  const pokemon = Route.useLoaderData();
 
   return <PokemonDetail pokemon={pokemon} />;
 }
