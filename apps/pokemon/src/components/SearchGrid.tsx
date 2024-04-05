@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "@tanstack/react-router";
+import { useDispatch } from "react-redux";
+
+import { searchUpdated, useSearch } from "../store";
 
 import { Pokemon } from "../types";
 
@@ -20,20 +23,9 @@ const PokemonCard = ({ pokemon }: { pokemon: Pokemon }) => {
   );
 };
 
-export default function SearchGrid({
-  pokemon,
-  onSearch,
-  initialSearch,
-}: {
-  pokemon: Pokemon[];
-  onSearch?: (search: string) => void;
-  initialSearch?: string;
-}) {
-  const [search, setSearch] = useState(initialSearch ?? "");
-
-  const onDoSearch = () => {
-    onSearch?.(search);
-  };
+export default function SearchGrid({ pokemon }: { pokemon: Pokemon[] }) {
+  const search = useSearch();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -41,20 +33,9 @@ export default function SearchGrid({
         <input
           placeholder="Search for a Pokemon"
           value={search}
-          onChange={(evt) => setSearch(evt.target.value)}
-          onKeyUp={(evt) => {
-            if (evt.key === "Enter") {
-              onDoSearch();
-            }
-          }}
+          onChange={(evt) => dispatch(searchUpdated(evt.target.value))}
           className="bg-white text-black border-gray-500 p-2 m-2 rounded-md text-xl w-full"
         />
-        <button
-          onClick={onDoSearch}
-          className="bg-blue-500 text-white px-8 py-2 m-2 rounded-full"
-        >
-          Search
-        </button>
       </div>
       <div className="flex flex-wrap">
         {pokemon.map((pokemon) => (
