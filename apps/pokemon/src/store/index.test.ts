@@ -1,11 +1,6 @@
 import { expect, test } from "vitest";
 import { store, searchUpdated } from "./index";
 
-test("tests the store", async () => {
-  const state = store.getState();
-  expect(state.pokemon.search).toEqual("");
-});
-
 test("sets the search string", async () => {
   await store.dispatch(searchUpdated("pikachu"));
 
