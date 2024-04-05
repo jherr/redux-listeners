@@ -2,12 +2,12 @@ import {
   configureStore,
   createSlice,
   createListenerMiddleware,
-  addListener,
 } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Pokemon } from "../types";
+import { pokemonSearch } from "../api/pokemon";
 
 /*
 We are purposefully not using RTK Query here to demonstrate how to use the listener middleware with a more traditional Redux setup.
@@ -51,27 +51,22 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-// listenerMiddleware.startListening.withTypes<
-//   RootState,
-//   AppDispatch
-// >()({
-//   predicate: (action, currentState, previousState) => {
-//     return currentState.counter.cart !== previousState.counter.cart;
-//   },
-//   effect: (action, listenerApi) => {
-//     const total = listenerApi
-//       .getState()
-//       .counter.cart.reduce(
-//         (acc: number, product: Product) => acc + product.price,
-//         0
-//       );
-//     listenerApi.dispatch(totalUpdated(total));
-//   },
-// });
-
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
 export const useAppSelector = useSelector.withTypes<RootState>();
 
 export const useSearch = () => useAppSelector((state) => state.pokemon.search);
 export const usePokemon = () =>
   useAppSelector((state) => state.pokemon.pokemon);
+
+listenerMiddleware.startListening.withTypes<RootState, AppDispatch>()({
+  predicate: (_action, currentState, previousState) => {
+    return currentState.pokemon.search !== previousState.pokemon.search;
+  },
+  effect: async (_action, listenerApi) => {
+    listenerApi.cancelActiveListeners();
+    await listenerApi.delay(500);
+
+    const pokemon = await pokemonSearch(listenerApi.getState().pokemon.search);
+    listenerApi.dispatch(pokemonUpdated(pokemon));
+  },
+});

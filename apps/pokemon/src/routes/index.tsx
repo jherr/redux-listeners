@@ -1,26 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { useDispatch } from "react-redux";
 
 import SearchGrid from "../components/SearchGrid";
 
-import type { Pokemon } from "../types";
-
-import { useSearch } from "../store";
+import { usePokemon, useSearch, pokemonUpdated, store } from "../store";
 import { pokemonSearch } from "../api/pokemon";
 
 export const Route = createFileRoute("/")({
   component: Index,
+  beforeLoad: async () => {
+    store.dispatch(pokemonUpdated(await pokemonSearch("")));
+  },
 });
 
 export default function Index() {
   const searchInputValue = useSearch();
-  const [pokemon, setPokemon] = useState<Pokemon[]>([]);
+  const pokemon = usePokemon();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    (async function runSearch() {
-      setPokemon(await pokemonSearch(searchInputValue));
-    })();
-  }, [searchInputValue]);
+  // useEffect(() => {
+  //   (async function runSearch() {
+  //     dispatch(pokemonUpdated(await pokemonSearch(searchInputValue)));
+  //   })();
+  // }, [searchInputValue]);
 
-  return <SearchGrid pokemon={pokemon} />;
+  return <SearchGrid pokemon={pokemon || []} />;
 }
