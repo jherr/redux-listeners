@@ -65,8 +65,11 @@ listenerMiddleware.startListening.withTypes<RootState, AppDispatch>()({
   effect: async (_action, listenerApi) => {
     listenerApi.cancelActiveListeners();
     await listenerApi.delay(500);
+    // ^^^ Built in debounce!
 
     const pokemon = await pokemonSearch(listenerApi.getState().pokemon.search);
     listenerApi.dispatch(pokemonUpdated(pokemon));
   },
 });
+
+// ^^^ What to do instead.

@@ -25,5 +25,7 @@ export default function Index() {
   //   })();
   // }, [searchInputValue]);
 
+  // ^^^ What not to do.
+
   return <SearchGrid pokemon={pokemon || []} />;
 }
