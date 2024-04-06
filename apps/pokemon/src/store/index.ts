@@ -30,13 +30,17 @@ export const pokemonSlice = createSlice({
     searchUpdated: (state, action: PayloadAction<string>) => {
       state.search = action.payload;
     },
+    searchReset: (state) => {
+      state.search = "";
+    },
     pokemonUpdated: (state, action: PayloadAction<Pokemon[]>) => {
       state.pokemon = action.payload;
     },
   },
 });
 
-export const { searchUpdated, pokemonUpdated } = pokemonSlice.actions;
+export const { searchUpdated, pokemonUpdated, searchReset } =
+  pokemonSlice.actions;
 
 const listenerMiddleware = createListenerMiddleware();
 

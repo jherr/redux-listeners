@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "@tanstack/react-router";
 import { useDispatch } from "react-redux";
 
-import { searchUpdated, useSearch } from "../store";
+import { searchUpdated, searchReset, useSearch } from "../store";
 
 import { API_HOST } from "../api/pokemon";
 
@@ -15,7 +15,7 @@ const PokemonCard = ({ pokemon }: { pokemon: Pokemon }) => {
         <img
           src={`${API_HOST}/assets/${pokemon.name.toLowerCase()}.jpg`}
           alt={pokemon.name}
-          className="w-full object-cover rounded-t-xl max-h-48"
+          className="w-full object-cover rounded-t-xl max-h-40"
         />
         <h3 className="text-2xl border-b-2 border-l-2 border-r-2 rounded-b-xl px-4 py-2">
           {pokemon.name}
@@ -38,6 +38,12 @@ export default function SearchGrid({ pokemon }: { pokemon: Pokemon[] }) {
           onChange={(evt) => dispatch(searchUpdated(evt.target.value))}
           className="bg-white text-black border-gray-500 p-2 m-2 rounded-md text-xl w-full"
         />
+        <button
+          onClick={() => dispatch(searchReset())}
+          className="bg-blue-500 text-white p-2 m-2 rounded-md text-xl"
+        >
+          Reset
+        </button>
       </div>
       <div className="flex flex-wrap">
         {pokemon.map((pokemon) => (

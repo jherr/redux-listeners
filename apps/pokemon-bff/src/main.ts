@@ -19,11 +19,13 @@ app.get("/api", (req, res) => {
   if (req.query.search) {
     const search = req.query.search as string;
     res.send(
-      pokemon.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
+      pokemon
+        .filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
+        .slice(0, 20)
     );
     return;
   } else {
-    res.send(pokemon);
+    res.send(pokemon.slice(0, 20));
   }
 });
 
